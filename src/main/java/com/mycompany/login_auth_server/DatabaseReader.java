@@ -16,13 +16,21 @@ import org.json.JSONObject;
  */
 public class DatabaseReader {
     
-    public String MySQLConnector(String query, String username, String password) {
+    public DatabaseReader() {
+        
+    }
+    
+    public String queryUserTable(String username, String password) {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/users",
                                                         "root","5li6TzCr$0");
             Statement state = con.createStatement();
-            ResultSet rs = state.executeQuery(query);
+            
+            String mySQLQuery = String.format(
+                    "SELECT * FROM user WHERE userID = \"%s\" AND password = \"%s\";",
+                    username, password);
+            ResultSet rs = state.executeQuery(mySQLQuery);
             
             JSONObject j = new JSONObject();
             
